@@ -2,15 +2,16 @@ from datetime import datetime
 
 import requests
 from sqlalchemy.dialects.sqlite import Insert
+from sqlalchemy.engine.base import Engine
 
 from src.conf import API_URL
-from src.db import engine
+from src.db import engine as db_engine
 from src.restaurant.models import Restaurant
 
 
-def update_db(api_url: str = API_URL, engine_db=engine):
+def update_db(api_url: str = API_URL, engine: Engine = db_engine):
     data = requests.get(api_url).json()
-    with engine_db.connect() as session:
+    with engine.connect() as session:
         for restaurant in data.get("searchResults"):
             store_id = restaurant["storePublic"]["storeId"]
             city = restaurant["storePublic"]["contacts"]["city"]["ru"]
@@ -23,7 +24,7 @@ def update_db(api_url: str = API_URL, engine_db=engine):
             features = 1 if "breakfast" in restaurant["storePublic"]["features"] else 0
             try:
                 start, end = datetime.strptime(start_time_local, "%H:%M:%S").time(), datetime.strptime(end_time_local, "%H:%M:%S").time()
-            except:
+            except TypeError:
                 start = end = None
             stmt = Insert(Restaurant).values(store_id=store_id,
                                              city=city,
