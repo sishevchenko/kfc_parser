@@ -1,7 +1,7 @@
 import sqlite3
 import time
 
-from src.restaurant.update_db import update_db
+from src.restaurant.update import update_db
 
 
 def main():
