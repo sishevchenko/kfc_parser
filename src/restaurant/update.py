@@ -23,7 +23,8 @@ def update_db(api_url: str = API_URL, engine: Engine = db_engine):
             end_time_local = restaurant["storePublic"]["openingHours"]["regular"]["endTimeLocal"]
             features = 1 if "breakfast" in restaurant["storePublic"]["features"] else 0
             try:
-                start, end = datetime.strptime(start_time_local, "%H:%M:%S").time(), datetime.strptime(end_time_local, "%H:%M:%S").time()
+                start, end = datetime.strptime(start_time_local, "%H:%M:%S").time(), \
+                             datetime.strptime(end_time_local, "%H:%M:%S").time()
             except TypeError:
                 start = end = None
             stmt = Insert(Restaurant).values(store_id=store_id,
