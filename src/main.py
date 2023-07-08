@@ -1,4 +1,5 @@
 import sqlite3
+import time
 
 from src.conf import API_URL
 from src.restaurant.update_db import update_db
@@ -25,8 +26,9 @@ def main():
 
 
 if __name__ == "__main__":
-    print("Start program")
+    print("start program")
+    start = time.perf_counter()
     main()
-    print("End program")
+    print("completed in {} sec".format(time.perf_counter() - start))
 else:
     print("It's not a module")
