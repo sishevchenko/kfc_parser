@@ -3,12 +3,12 @@ from datetime import datetime
 import requests
 from sqlalchemy.dialects.sqlite import Insert
 
+from src.conf import API_URL
 from src.db import engine
-
 from src.restaurant.models import Restaurant
 
 
-def update_db(api_url: str, engine_db=engine):
+def update_db(api_url: str = API_URL, engine_db=engine):
     data = requests.get(api_url).json()
     with engine_db.connect() as session:
         for restaurant in data.get("searchResults"):

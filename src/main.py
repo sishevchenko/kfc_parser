@@ -1,7 +1,6 @@
 import sqlite3
 import time
 
-from src.conf import API_URL
 from src.restaurant.update_db import update_db
 
 
@@ -10,7 +9,7 @@ def main():
         cursor = conn.cursor()
         if cursor.execute(
                 """SELECT name FROM sqlite_master WHERE type = 'table' AND name = 'restaurant';""").fetchone():
-            update_db(API_URL)
+            update_db()
         else:
             cursor.execute("""CREATE TABLE restaurant (
             store_id TEXT NOT NULL PRIMARY KEY,
@@ -22,7 +21,7 @@ def main():
             start_time_local TIME NULL,
             end_time_local TIME NULL,
             features INTEGER NULL);""")
-            update_db(API_URL)
+            update_db()
 
 
 if __name__ == "__main__":
