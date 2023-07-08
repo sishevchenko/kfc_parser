@@ -1,2 +1,8 @@
-API_URL = r"https://api.kfc.digital/api/store/v2/store.get_restaurants"
-DATABASE_URL = r"sqlite:///./kfc_restaurant.db"
+import os
+from dotenv import load_dotenv
+
+load_dotenv(".env")
+
+
+API_URL = os.getenv("API_URL")
+DATABASE_URL = os.getenv("DATABASE_URL")
