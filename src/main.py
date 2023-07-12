@@ -6,12 +6,13 @@ from src.restaurant.update import update_db
 
 def main():
     with sqlite3.connect('kfc_restaurant.db') as conn:
-        cursor = conn.cursor()
-        if cursor.execute(
-                """SELECT name FROM sqlite_master WHERE type = 'table' AND name = 'restaurant';""").fetchone():
+        if conn.execute(
+                """SELECT name 
+                FROM sqlite_master 
+                WHERE type = 'table' AND name = 'restaurant';""").fetchone():
             update_db()
         else:
-            cursor.execute("""CREATE TABLE restaurant (
+            conn.execute("""CREATE TABLE restaurant (
             store_id TEXT NOT NULL PRIMARY KEY,
             city TEXT NOT NULL,
             street_address TEXT NULL,
@@ -27,7 +28,12 @@ def main():
 if __name__ == "__main__":
     print("start program")
     start = time.perf_counter()
-    main()
-    print("completed in {} sec".format(time.perf_counter() - start))
+    try:
+        main()
+        print("completed in {} sec".format(time.perf_counter() - start))
+    except KeyboardInterrupt:
+        print("stop program")
+    except Exception as ex:
+        print(ex)
 else:
     print("It's not a module")
