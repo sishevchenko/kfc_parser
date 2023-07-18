@@ -8,11 +8,13 @@ from src.restaurant.update import update_db
 
 def main():
     with sqlite3.connect('src/kfc_restaurant.db') as conn:
+        # Проверяем наличие таблицы в БД
         if conn.execute(
                 """SELECT name
                 FROM sqlite_master
                 WHERE type = 'table' AND name = 'restaurant';""").fetchone():
             update_db()
+        # Проверяем был ли аргумент для сырого запроса на создание таблицы
         elif "-raw-sql" in sys.argv:
             conn.execute("""CREATE TABLE restaurant (
                         store_id TEXT NOT NULL PRIMARY KEY,
@@ -25,6 +27,7 @@ def main():
                         end_time_local TIME NULL,
                         features INTEGER NULL);""")
             update_db()
+        # Уведомляем пользователя о том, что он может использовать alembic для обновления БД
         else:
             print("table 'restaurant' not found in database\n",
                   "please create an alembic migration by running the following commands\n",
