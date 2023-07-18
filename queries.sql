@@ -1,7 +1,7 @@
 -- SQL команда для создания таблицы
 CREATE TABLE restaurant (
     store_id TEXT NOT NULL PRIMARY KEY,
-    city TEXT NOT NULL,
+    city TEXT NULL,
     street_address TEXT NULL,
     title TEXT NULL, -- Название точки
     latitude REAL NULL, -- Долгота
